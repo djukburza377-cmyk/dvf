@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Retro RPG Game</title>
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas" width="800" height="600"></canvas>
+        <div id="ui-panel">
+            <div id="stats-panel">
+                <h2>Stats</h2>
+                <!-- Player stats will be shown here -->
+                <p id="health">Health: 100</p>
+                <p id="mana">Mana: 50</p>
+            </div>
+            <div id="combat-info-panel">
+                <h2>Combat Info</h2>
+                <p id="current-action">Current Action: None</p>
+                <p id="enemy-status">Enemy Status: None</p>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
