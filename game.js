@@ -1,80 +1,96 @@
-// RPG Game Engine
+// RPG Game Engine implementation
 
-// Player System
+// Initialize canvas
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+// Game variables
+let player;
+let enemies = [];
+let gameObjects = [];
+
+// Player class
 class Player {
-    constructor(name) {
+    constructor(name, x, y) {
         this.name = name;
+        this.x = x;
+        this.y = y;
+        this.level = 1;
         this.health = 100;
         this.attack = 10;
-        this.level = 1;
         this.experience = 0;
-        this.stats = {
-            strength: 10,
-            agility: 10,
-            intelligence: 10
-        };
     }
-
+    move(dx, dy) {
+        this.x += dx;
+        this.y += dy;
+    }
     levelUp() {
         this.level++;
         this.health += 20;
         this.attack += 5;
     }
-}
-
-// Turn-Based Combat System
-class Combat {
-    static battle(player, enemy) {
-        // Placeholder for combat logic
-        console.log(`${player.name} engages with ${enemy.name}`);
-        // Logic for handling turns and combat goes here
+    gainExperience(exp) {
+        this.experience += exp;
+        if (this.experience >= 100) {
+            this.levelUp();
+            this.experience = 0;
+        }
     }
 }
 
-// Enemy Spawning and AI
+// Enemy class
 class Enemy {
-    constructor(name, level) {
-        this.name = name;
-        this.level = level;
-        this.health = 100;
+    constructor(x, y, health) {
+        this.x = x;
+        this.y = y;
+        this.health = health;
+    }
+    moveTowards(player) {
+        const dx = player.x - this.x;
+        const dy = player.y - this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance > 0) {
+            this.x += dx / distance;
+            this.y += dy / distance;
+        }
+    }
+    attack(player) {
+        player.health -= 5;
     }
 }
 
-function spawnEnemy(level) {
-    // Logic for spawning enemies
-    return new Enemy("Goblin", level);
+// Initialize game
+function initGame() {
+    player = new Player('Hero', 50, 50);
+    enemies.push(new Enemy(100, 100, 50));
+    gameObjects.push(player);
+    gameObjects.push(...enemies);
 }
 
-// Experience and Leveling System
-function awardExperience(player, exp) {
-    player.experience += exp;
-    if (player.experience >= 100) {
-        player.levelUp();
-        player.experience = 0; // Reset experience after leveling up
+// Render game
+function render() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const obj of gameObjects) {
+        ctx.fillRect(obj.x, obj.y, 10, 10);
     }
 }
 
-// Loot Drops
-function dropLoot(enemy) {
-    // Placeholder for loot drop logic
-    return [`Gold from ${enemy.name}`];
+// Game loop
+function gameLoop() {
+    render();
+    requestAnimationFrame(gameLoop);
 }
 
-// Map Exploration with 2D Pixel Rendering
-function renderMap() {
-    // Placeholder for map rendering logic
-}
+// Event listeners for player movement
+window.addEventListener('keydown', (event) => {
+    switch (event.code) {
+        case 'ArrowUp': player.move(0, -5); break;
+        case 'ArrowDown': player.move(0, 5); break;
+        case 'ArrowLeft': player.move(-5, 0); break;
+        case 'ArrowRight': player.move(5, 0); break;
+    }
+});
 
-// Movement Controls
-function movePlayer(player, direction) {
-    console.log(`${player.name} moves ${direction}`);
-    // Logic for handling player movement
-}
-
-// Example usage
-const player = new Player("Hero");
-const enemy = spawnEnemy(1);
-Combat.battle(player, enemy);
-awardExperience(player, 50);
-const loot = dropLoot(enemy);
-console.log(loot);
+// Start the game
+initGame();
+gameLoop();
