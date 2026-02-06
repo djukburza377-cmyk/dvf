@@ -1,0 +1,54 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    font-family: 'PixelFont', sans-serif;
+    height: 100vh;
+    padding: 20px;
+}
+
+.header {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.health-bar {
+    width: 100%;
+    height: 30px;
+    background-color: #555;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.health-fill {
+    height: 100%;
+    background-color: #ff4444;
+    transition: width 0.5s;
+}
+
+.ui-panel {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #fff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+    width: 300px;
+}
+
+.status-display {
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+    .ui-panel {
+        width: 100%;
+    }
+}
